@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [inputNumber, setInputNumber] = useState(0);
+  const [sliderValue, setSliderValue] = useState(0);
+  const [result, setResult] = useState(0);
+
+  const handleInputChange = (e) => {
+    setInputNumber(parseFloat(e.target.value));
+  };
+
+  const handleSliderChange = (e) => {
+    setSliderValue(parseFloat(e.target.value));
+  };
+
+  const calculateResult = () => {
+    const newResult = inputNumber * 6 * (sliderValue / 100);
+    setResult(newResult);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <div>
+          <label>Input number: </label>
+          <input
+            type="number"
+            step="0.1"
+            value={inputNumber}
+            onChange={(e) => {
+              handleInputChange(e);
+              calculateResult();
+            }}
+          />
+        </div>
+
+        <div>
+          <label>Slider: </label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="0.1"
+            value={sliderValue}
+            onChange={(e) => {
+              handleSliderChange(e);
+              calculateResult();
+            }}
+          />
+          <span>{sliderValue}</span>
+        </div>
+        
+        <div>
+          <p>Result: {result}</p>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
